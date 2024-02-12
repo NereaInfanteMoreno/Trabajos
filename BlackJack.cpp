@@ -4,12 +4,12 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include <Windows.h> 
-//#include <time.h>
+#include <Windows.h>
 #include <stdio.h>
 #include <mmsystem.h>
 #include <windows.graphics.h>
 #include <conio.h>
+#include <graphics.h>
 
 #pragma comment(lib, "winmm.lib")
 using namespace std;
@@ -26,22 +26,22 @@ void gotoxy(int x, int y)
 
 void inicio_juego()
 {
-     char dd = 0;
-     system("cls");
-     gotoxy(15, 1);
-     cout << " *----------------------------- Comienza el juego del BLACKJACK ------------------------------*\n";
-     gotoxy(19, 3);
-     cout << "COMIENZA  EL JUEGO \n";
-     gotoxy(19, 5);
-     cout << "Para comenzar el juego presiona una tecla" << endl;
-     gotoxy(65, 5);
-    dd=_getch();
+    char dd = 0;
+    system("cls");
+    gotoxy(15, 1);
+    cout << " *----------------------------- Comienza el juego del BLACKJACK ------------------------------*\n";
+    gotoxy(19, 3);
+    cout << "COMIENZA  EL JUUEGO \n";
+    gotoxy(19, 5);
+    cout << "Para conmenzar el juego presiona una tecla" << endl;
+    gotoxy(65, 5);
+    dd = _getch();
     system("cls");
 }
 void panel_de_juego()
 {
     system("color b4");
-    system("cls"); 
+    system("cls");
     gotoxy(55, 0);
     cout << " BLACKJACK \n";
     gotoxy(10, 1);
@@ -49,26 +49,26 @@ void panel_de_juego()
         cout << "-";
     }
     gotoxy(10, 2);
-    for (int x = 2; x <= 22; x++) 
+    for (int x = 2; x <= 22; x++)
     {
         gotoxy(10, x);
-        cout << "                                                  |                                                  "<<endl;
+        cout << "                                                  |                                                  " << endl;
     }
     gotoxy(10, 23);
     for (int x = 1; x <= 100; x++) {
         cout << "-";
     }
     gotoxy(25, 3);
-    cout << "Jugador"<<endl;
+    cout << "Jugador" << endl;
     gotoxy(25, 4);
     cout << "-------";
-    gotoxy(75,3);
-    cout << "Crupier"<<endl;
+    gotoxy(75, 3);
+    cout << "Crupier" << endl;
     gotoxy(75, 4);
     cout << "-------";
 
-    }
- 
+}
+
 
 int jugadores()
 {
@@ -77,7 +77,7 @@ int jugadores()
     gotoxy(15, 1);
     cout << " *----------------------------- Comienza el juego del BLACKJACK ------------------------------*\n";
     gotoxy(25, 3);
-    cout << " *---------------   Numero de jugadores - maximo 4 -------------*\n";
+    cout << " *---------------   Numero de juadador  Maximo 4 -------------*\n";
     gotoxy(20, 5);
     cout << "                         1 -- > Jugador         \n";
     gotoxy(20, 6);
@@ -96,13 +96,13 @@ int jugadores()
 
 }
 
-int pedir_indice() 
+int pedir_indice()
 {
-     int tim = 0 + rand() % (52 - 1);
-     return (tim);
+    int tim = 0 + rand() % (52 - 1);
+    return (tim);
 }
 
-int valor_carta(string elemento)
+int valor_carta(string elemento, int puntuacion)
 {
     char letra;
     int punto;
@@ -119,7 +119,15 @@ int valor_carta(string elemento)
         punto = 10;
         break;
     case '1':
-        punto = 10;
+        if (puntuacion > 10)
+        {
+            punto = 1;
+        }
+        else
+        {
+            punto = 11;
+        }
+
         break;
 
     default:
@@ -131,15 +139,13 @@ int valor_carta(string elemento)
 }
 
 
-
-
 int main()
 {
     // crear variables
     boolean flag = true;
     boolean flag1 = true;
     string carta1, carta2;
-    int otra_carta ;
+    int otra_carta;
     int indice_jugador = 1, indice_crupier = 1;
     int puntuacion = 0, puntos1 = 0, puntos2 = 0;
     int jugador = 0, indice;
@@ -162,135 +168,135 @@ int main()
     system("title : El juego del Blacjack ");
     jugador = jugadores();
 
-   // primera jugada se sacan dos cartas para jugador y dos para el crupier una de ellas tapada
-   // primera carta del jugador 1
-   do
+    // primera jugada se sacan dos cartas para jugador y  dos para el crupier una de ellas tapada
+    // primera carta del jugador 1
+    do
     {
         indice = pedir_indice();
     } while (baraja[indice] == "00");
-    
+
     cartas_jugador[0] = baraja[indice];
     baraja[indice] = "00";
     carta1 = cartas_jugador[0];
-    puntos1 = valor_carta(carta1);
- 
+    puntos1 = valor_carta(carta1, puntos_jugador);
+
     // segunda carta del jugador 1
     do
     {
-         indice = pedir_indice();
-    } while (baraja[indice]=="00");
-    
+        indice = pedir_indice();
+    } while (baraja[indice] == "00");
+
     cartas_jugador[1] = baraja[indice];
     baraja[indice] = "00";
     carta2 = cartas_jugador[1];
-    puntos2 = valor_carta(carta2);
-   
+    puntos2 = valor_carta(carta2, puntos_jugador);
+
     puntos_jugador = puntos1 + puntos2;
 
     // primera carta del crupier
     do
     {
-         indice = pedir_indice();
+        indice = pedir_indice();
     } while (baraja[indice] == "00");
 
     cartas_crupier[0] = baraja[indice];
     baraja[indice] = "00";
     carta1 = cartas_crupier[0];
-    puntos1 = valor_carta(carta1);
-  
+    puntos1 = valor_carta(carta1, puntos_crupier);
+
     // segunda carta del crupier
     do
     {
         indice = pedir_indice();
     } while (baraja[indice] == "00");
 
-     cartas_crupier[1] = baraja[indice];
-     baraja[indice] = "00";
-     carta2 = cartas_crupier[1];
-     puntos2 = valor_carta(carta2);  
-     puntos_crupier = puntos1 + puntos2;
-   
-   system("cls");
-   panel_de_juego();
+    cartas_crupier[1] = baraja[indice];
+    baraja[indice] = "00";
+    carta2 = cartas_crupier[1];
+    puntos2 = valor_carta(carta2, puntos_crupier);
+    puntos_crupier = puntos1 + puntos2;
 
-   for (int x = 0; x <= indice_jugador; x++)
-   {
-       gotoxy(15, (8 + x));
-       cout << "carta " << cartas_jugador[x] << endl;
-   }
-   gotoxy(25, 5);
-   cout << "Puntos  " << puntos_jugador << endl;
+    system("cls");
+    panel_de_juego();
 
-   for (int x = 0; x < indice_crupier; x++)
-   {
-       gotoxy(70, (8 + x));
-       cout << "carta " << cartas_crupier[x] << endl;
-       gotoxy(75, 5);
-       cout << "Puntos  "  << endl;
-   }
+    for (int x = 0; x <= indice_jugador; x++)
+    {
+        gotoxy(15, (8 + x));
+        cout << "carta " << cartas_jugador[x] << endl;
+    }
+    gotoxy(25, 5);
+    cout << "Puntos  " << puntos_jugador << endl;
 
-   //******************************************************************************
+    for (int x = 0; x < indice_crupier; x++)
+    {
+        gotoxy(70, (8 + x));
+        cout << "carta " << cartas_crupier[x] << endl;
+        gotoxy(75, 5);
+        cout << "Puntos  " << endl;
+    }
+
+    //******************************************************************************
     while (flag)  //**** aqui comienza el juego el jugador 1
-    {        
-            if (puntos_jugador == 21)
+    {
+        if (puntos_jugador == 21)
+        {
+            gotoxy(25, 19);
+            cout << "B L A C K J A C K" << endl;
+            otra_carta = 2;
+        }
+
+        if (puntos_jugador > 21)
+        {
+            gotoxy(25, 19);
+            cout << "   TE HAS PASADO  " << endl;
+            gotoxy(65, 19);
+            cout << "La BANCA  ha ganado                      " << endl;
+            otra_carta = 2;
+            flag1 = false;
+        }
+
+        if (puntos_jugador < 21)
+        {
+            gotoxy(12, 25);
+            cout << "Pedir carta --> 1     Plantarme  --> 2" << endl;
+            gotoxy(52, 25);
+            cin >> otra_carta;
+        }
+
+        switch (otra_carta)
+        {
+        case 1:
+            do
             {
-                gotoxy(25, 19);
-                cout << "B L A C K J A C K" << endl;
-                otra_carta = 2;
-             }
+                indice = pedir_indice();
+            } while (baraja[indice] == "00");
 
-            if (puntos_jugador > 21)
+            indice_jugador++;
+            cartas_jugador[indice_jugador] = baraja[indice];
+            baraja[indice] = "00";
+            carta1 = cartas_jugador[indice_jugador];
+            puntos1 = valor_carta(carta1, puntos_jugador);
+            puntos_jugador = puntos_jugador + puntos1;
+
+            for (int x = 0; x <= indice_jugador; x++)
             {
-                gotoxy(25, 19);
-                cout << "   TE HAS PASADO  " << endl;
-                gotoxy(65, 19);
-                cout << "La BANCA ha ganado                      " << endl;
-                otra_carta = 2;
-                flag1 = false;
+                gotoxy(15, (8 + x));
+                cout << "carta " << cartas_jugador[x] << endl;
             }
+            gotoxy(25, 5);
+            cout << "Puntos  " << puntos_jugador << endl;
 
-            if (puntos_jugador < 21)
-            {             
-                gotoxy(12, 25);
-                cout << "Pedir carta --> 1     Plantarme  --> 2" << endl;
-                gotoxy(52, 25);
-                cin >> otra_carta;   
-            }
+            break;
 
-            switch (otra_carta)
-            {
-               case 1:
-                    do
-                    {
-                         indice = pedir_indice();
-                    } while (baraja[indice] == "00");
+        case 2:
+            flag = false;
+            break;
 
-                     indice_jugador++;
-                     cartas_jugador[indice_jugador] = baraja[indice];
-                     baraja[indice] = "00";
-                     carta1 = cartas_jugador[indice_jugador];
-                     puntos1 = valor_carta(carta1);
-                     puntos_jugador = puntos_jugador + puntos1;
+        default:
 
-                     for (int x = 0; x <= indice_jugador; x++)
-                     {
-                         gotoxy(15, (8 + x));
-                         cout << "carta " << cartas_jugador[x] << endl;
-                     }
-                     gotoxy(25, 5);
-                     cout << "Puntos  " << puntos_jugador << endl;
-                  
-                     break;
+            break;
+        }
 
-               case 2:
-                      flag = false;
-                      break;
-
-               default:
-
-                      break;
-            }
-      
     }
 
     for (int x = 0; x <= indice_crupier; x++)
@@ -303,10 +309,10 @@ int main()
     gotoxy(12, 25);
     cout << "                                              " << endl;
 
- 
-    while (flag1 ==true)   //**** aqui comienza el juego el crupier
+
+    while (flag1 == true)   //**** aqui comienza el juego el crupier
     {
-             
+
         if (puntos_crupier == 21)
         {
             gotoxy(65, 19);
@@ -315,7 +321,7 @@ int main()
             if (puntos_crupier == puntos_jugador)
             {
                 gotoxy(49, 20);
-                cout << "P A R T I D A    N U L A   " << endl; 
+                cout << "P A R T I D A    N U L A   " << endl;
             }
             otra_carta = 2;
             flag1 = false;
@@ -324,21 +330,21 @@ int main()
         if (puntos_crupier > 21)
         {
             gotoxy(65, 19);
-            cout << "La BANCA ha perdido                      " << endl;
+            cout << "La BANCA  ha perdido                      " << endl;
             otra_carta = 2;
             flag1 = false;
         }
 
-        if (puntos_crupier < 21) 
+        if (puntos_crupier < 21)
         {
             if (puntos_crupier > puntos_jugador)
             {
                 gotoxy(65, 19);
-                cout << "La BANCA ha ganado                     " << endl;
+                cout << "La BANCA  ha ganado                     " << endl;
                 otra_carta = 2;
                 flag1 = false;
-            }      
-            else 
+            }
+            else
             {
                 gotoxy(60, 25);
                 cout << "Pedir carta --> 1   Plantarme  --> 2" << endl;
@@ -364,11 +370,11 @@ int main()
                 }
             }
         }
-    
+
 
         switch (otra_carta)
         {
-          case 1:
+        case 1:
             do
             {
                 indice = pedir_indice();
@@ -378,9 +384,9 @@ int main()
             cartas_crupier[indice_crupier] = baraja[indice];
             baraja[indice] = "00";
             carta1 = cartas_crupier[indice_crupier];
-            puntos1 = valor_carta(carta1);
+            puntos1 = valor_carta(carta1, puntos_crupier);
             puntos_crupier = puntos_crupier + puntos1;
-                       
+
             for (int x = 0; x <= indice_crupier; x++)
             {
                 gotoxy(70, (8 + x));
@@ -392,19 +398,19 @@ int main()
             cout << "                                          " << endl;
 
             break;
-          case 2:
+        case 2:
 
             flag1 = false;
             break;
-          default:
+        default:
 
-              flag1 = false;
+            flag1 = false;
             break;
         }
-      
+
     }
 
-   gotoxy(45, 13);
+    gotoxy(45, 13);
     cout << "     G A M E       O V E R       " << endl;
     PlaySound(TEXT("level-passed.wav"), NULL, SND_ASYNC);
     Sleep(1000);
